@@ -1,0 +1,60 @@
+{% extends 'flatpages/default.html' %}
+{% block title %} Личный кабинет {% endblock title %}
+
+{% block content %}
+<p></p>
+<h3>Отклики:</h3>
+<form method="GET">
+    {{ filter.form }}
+    <input type="submit" value="Найти отклик">
+</form>
+<!--{% if user.notice_user.all%}
+{{ notices }}
+
+<table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Текст</td>
+               <td>Категория</td>
+               <td>Автор</td>
+           </tr>
+           {% for notice in filter.qs %}
+           <tr>
+               <td><a href="{% url 'notice_detail' notice.id %}">{{ notice.notice_header }}</a></td>
+               <td>{{ notice.notice_text }}</td>
+               <td>{{ notice.notice_category }}</td>
+               <td>{{ notice.notice_user }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+
+{% endif %}-->
+<ul class="list-group mt-4">
+    {% if user.notice_user.all%}
+    {% for notice in filter.qs %}
+    {% for notices in user.notice_user.all %}
+    {% if notice.answer_post_id == notices.id %}
+    <li class="list-group-item" href="{% url 'notice_detail' notice.id %}">
+        <b>{{ notices.notice_header}}</b>
+        <br>
+        <h6> Отзыв оставил : {{ notice.answer_user }}</h6>
+        <br>
+        {% if not notice.is_accept %}
+        <span class="pull-right mr-3"><a href="{% url 'answer_confirm' notice.id %}">Принять</a></span>
+        {% else %}
+        <span class="pull-right mr-3"><a href="{% url 'answer_cancel' notice.id %}">Отменить</a></span>
+        <br>
+        {% endif %}
+        <span>{{ notice.answer_text }}</span>
+        {% if notice.is_accept %}
+        <div class="pull-right"><b>Отклик принят</b></div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </li>
+    {% endfor %}
+    {% else %}
+        <h3>Откликов нет</h3>
+    {% endif %}
+</ul>
+{% endblock content %}

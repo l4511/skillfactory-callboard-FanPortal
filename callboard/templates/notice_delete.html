@@ -1,0 +1,20 @@
+{% extends 'flatpages/default.html' %}
+{% block title %} {{ notice.notice_header }} {% endblock title %}
+
+{% block content %}
+
+{% if user == notice.notice_user %}
+<h1>{{ notice.notice_header }}</h1>
+
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Подтвердить">
+</form>
+    {% else %}
+    <h1>У Вас нет доступа!</h1>
+    {% endif %}
+<form action="{% url 'notice_detail' notice.id %}">
+    <button>Отмена</button>
+</form>
+{% endblock content %}

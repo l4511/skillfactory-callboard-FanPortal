@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+Наши новости!
+        <br>
+<ul class="list-group mt-4">
+    {% for notice in notices %}
+    <li class="list-group-item" href="{% url 'notice_detail' notice.id %}">
+        <b>{{ notice.notice_header }}</b>
+        <span>{{ notice.notice_text|safe }}</span>
+        <span>{{ notice.notice_user }}</span>
+        <span class="pull-right mr-3"><a href="http://127.0.0.1:8000/notice/{{ notice.id }}">Перейти</a></span>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

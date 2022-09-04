@@ -1,0 +1,12 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} Add notice {% endblock title %}
+
+{% block content %}
+<h3>Создать объявление</h3>
+<form method="POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Запостить">
+</form>
+{% endblock content %}
